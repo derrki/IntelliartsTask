@@ -7,6 +7,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
 
     public PurchaseDaoImpl(){}
 
+    @Override
     public Purchase getById(Long id) {
         return null;
     }

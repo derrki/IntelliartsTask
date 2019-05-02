@@ -1,23 +1,11 @@
 package com.bimdog.testtask.model;
 
-import java.io.Serializable;
-
-public class Souvenir implements Serializable{
-
-    private Long id;
+public class Souvenir extends Model{
 
     private String name;
     private int price;
 
     public Souvenir (){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -38,7 +26,7 @@ public class Souvenir implements Serializable{
     @Override
     public String toString() {
         return "Souvenir{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
