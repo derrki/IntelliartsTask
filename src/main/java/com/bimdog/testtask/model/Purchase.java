@@ -1,7 +1,6 @@
 package com.bimdog.testtask.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Purchase implements Serializable{
