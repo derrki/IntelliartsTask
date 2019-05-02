@@ -1,6 +1,8 @@
 package com.bimdog.testtask.model;
 
-public class Souvenir {
+import java.io.Serializable;
+
+public class Souvenir implements Serializable{
 
     private Long id;
 
@@ -33,4 +35,12 @@ public class Souvenir {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "Souvenir{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
