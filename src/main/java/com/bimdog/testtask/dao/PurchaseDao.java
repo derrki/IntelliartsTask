@@ -2,8 +2,7 @@ package com.bimdog.testtask.dao;
 
 import com.bimdog.testtask.model.Purchase;
 
-public interface PurchaseDao {
+public interface PurchaseDao extends ItemDao<Purchase> {
 
-    public Purchase getById(Long id);
 
 }
