@@ -16,14 +16,17 @@ public class Main {
         String PASSWORD_MYSQL = "root";
         Connection connection = null;
 
-        String sql = "INSERT INTO test(testcol) VALUES(?);";
+        String sql = "INSERT INTO purchases(date, name_souvenir, price, currency) VALUES(?, ?, ? , ?);";
         connection = DriverManager.getConnection(HOST_MYSQL, USERNAME_MYSQL, PASSWORD_MYSQL);
 
         try (PreparedStatement pStatementTest = connection.prepareStatement(sql)){
 
             System.out.println("Приєднано до mysql");
 
-            pStatementTest.setString(1, "testData");
+            pStatementTest.setDate(1, new Date(1556965285493L));
+            pStatementTest.setString(2, "T_shirt");
+            pStatementTest.setInt(3, 20);
+            pStatementTest.setString(4, "USD");
             pStatementTest.execute();
 
         } catch (SQLException e) {
