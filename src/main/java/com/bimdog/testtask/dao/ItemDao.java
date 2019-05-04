@@ -8,9 +8,9 @@ public interface ItemDao <T extends Model>{
 
     public List<T> getAll();
 
-    public T getById(Long id);
+    public T getByDate(Long date);
 
-    public void add(T model);
+    public boolean add(T model);
 
     public void delete(T model);
 
