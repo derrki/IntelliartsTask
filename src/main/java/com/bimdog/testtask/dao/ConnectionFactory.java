@@ -14,7 +14,7 @@ public class ConnectionFactory {
     private static String password;
     private static String driver;
 
-    private ConnectionFactory(){
+    public ConnectionFactory(){
         getProperties();
         try {
             Class.forName(driver);

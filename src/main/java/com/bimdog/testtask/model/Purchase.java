@@ -2,31 +2,32 @@ package com.bimdog.testtask.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Purchase extends Model{
 
-    private long dateOfPurchase;
+    private Date dateOfPurchase;
     private String nameSouvenir;
     private int price;
     private String currency;
 
     public Purchase (){}
 
-    public long getDateOfPurchase() {
+    public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
 
     public void setDateOfPurchase(String dateOfPurchase) {
         long oneDay = 86400000;
-        Date  date = null;
+        java.util.Date date = null;
         try {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
-        date = simpleDateFormat.parse(dateOfPurchase);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
+            date = simpleDateFormat.parse(dateOfPurchase);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.dateOfPurchase = date.getTime() +oneDay;
+
+        this.dateOfPurchase = new Date(date.getTime());
     }
 
     public String getNameSouvenir() {
@@ -67,22 +68,10 @@ public class Purchase extends Model{
 
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (dateOfPurchase ^ (dateOfPurchase >>> 32));
-        result = 31 * result + nameSouvenir.hashCode();
-        result = 31 * result + price;
-        result = 31 * result + currency.hashCode();
-        return result;
-    }
+
 
     @Override
     public String toString() {
-        return "Purchase{" +
-                "nameSouvenir='" + nameSouvenir + '\'' +
-                ", dateOfPurchase=" + dateOfPurchase +
-                ", price=" + price +
-                ", currency='" + currency + '\'' +
-                '}';
+        return dateOfPurchase +" " + nameSouvenir + " " + " " + price + " " + currency;
     }
 }

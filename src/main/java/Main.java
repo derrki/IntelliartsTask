@@ -4,41 +4,45 @@ import com.bimdog.testtask.model.Purchase;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException, ParseException {
 
-        ConnectionFactory conFactory = ConnectionFactory.getInstance();
-
+        //ConnectionFactory conFactory = new ConnectionFactory();
         PurchaseDatabaseDao purchaseDao = new PurchaseDatabaseDao();
 
         Purchase purchase = new Purchase();
-        purchase.setDateOfPurchase("1990-01-01");
+        purchase.setDateOfPurchase("1999-01-01");
         purchase.setNameSouvenir("Bool");
         purchase.setPrice(1000);
         purchase.setCurrency("GBP");
 
         purchaseDao.add(purchase);
 
-        try (Connection connection = conFactory.getConnection();
-                Statement statement = connection.createStatement();
-                ){
+        List<Purchase> allPurchase= purchaseDao.getAll();
 
-            System.out.println("Приєднано до mysql");
-            ResultSet resultSet = statement.executeQuery("select * from purchases WHERE date='1985-01-01'");
-            while (resultSet.next()){
-                System.out.print(resultSet.getDate("date") + " ");
-                System.out.print(resultSet.getString("name_souvenir") + " ");
-                System.out.print(resultSet.getInt("price") + " ");
-                System.out.print(resultSet.getString("currency"));
-                System.out.println();
-            }
-        } catch (SQLException e) {
-            System.err.println("Приєднання до бази не відбулось, по причині - " + e);
+        for (Purchase p : allPurchase) {
+            System.out.println(p);
         }
 
+//        try (Connection connection = conFactory.getConnection();
+//                Statement statement = connection.createStatement();
+//                ){
+//
+//            System.out.println("Приєднано до mysql");
+//            ResultSet resultSet = statement.executeQuery("select * from purchases WHERE date='1985-01-01'");
+//            while (resultSet.next()){
+//                System.out.print(resultSet.getDate("date") + " ");
+//                System.out.print(resultSet.getString("name_souvenir") + " ");
+//                System.out.print(resultSet.getInt("price") + " ");
+//                System.out.print(resultSet.getString("currency"));
+//                System.out.println();
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Приєднання до бази не відбулось, по причині - " + e);
+//        }
+
     }
-
-
 }
