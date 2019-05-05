@@ -31,7 +31,6 @@ public class PurchaseDatabaseDao implements PurchaseDao {
             e.printStackTrace();
         }
         return result;
-
     }
 
     @Override

@@ -4,14 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
 
-public class Purchase extends Model{
+public class Purchase extends Model {
 
     private Date dateOfPurchase;
     private String nameSouvenir;
     private int price;
     private String currency;
 
-    public Purchase (){}
+    public Purchase() {
+    }
 
     public Date getDateOfPurchase() {
         return dateOfPurchase;
@@ -35,7 +36,7 @@ public class Purchase extends Model{
     }
 
     public void setNameSouvenir(String nameSouvenir) {
-        this.nameSouvenir = nameSouvenir;
+            this.nameSouvenir = nameSouvenir;
     }
 
     public int getPrice() {
@@ -68,10 +69,8 @@ public class Purchase extends Model{
 
     }
 
-
-
     @Override
     public String toString() {
-        return dateOfPurchase +" " + nameSouvenir + " " + " " + price + " " + currency;
+        return dateOfPurchase + " " + nameSouvenir + " " + " " + price + " " + currency;
     }
 }
