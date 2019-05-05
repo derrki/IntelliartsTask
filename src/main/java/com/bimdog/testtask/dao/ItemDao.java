@@ -12,6 +12,6 @@ public interface ItemDao <T extends Model>{
 
     public boolean add(T model);
 
-    public void delete(T model);
+    public void delete(String date);
 
 }

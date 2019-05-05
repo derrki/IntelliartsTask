@@ -19,20 +19,24 @@ public class Main {
         purchase.setPrice(1000);
         purchase.setCurrency("GBP");
 
-        purchaseDao.add(purchase);
+        //purchaseDao.add(purchase);
 
-//        List<Purchase> allPurchase= purchaseDao.getAll();
-//
-//        for (Purchase p : allPurchase) {
-//            System.out.println(p);
-//        }
+        List<Purchase> allPurchase= purchaseDao.getAll();
 
-
-        List<Purchase> purchasesOfDate = purchaseDao.getByDate("1998-12-31");
-
-        for (Purchase p : purchasesOfDate){
+        for (Purchase p : allPurchase) {
             System.out.println(p);
         }
+
+
+       // List<Purchase> purchasesOfDate = purchaseDao.getByDate("1998-12-31");
+
+       // for (Purchase p : purchasesOfDate){
+         //   System.out.println(p);
+       // }
+
+
+        purchaseDao.delete("2010-01-03");
+
 //        try (Connection connection = conFactory.getConnection();
 //                Statement statement = connection.createStatement();
 //                ){

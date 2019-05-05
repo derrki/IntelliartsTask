@@ -58,11 +58,6 @@ public class PurchaseDatabaseDao implements PurchaseDao {
     }
 
     @Override
-    public void delete(Purchase model) {
-
-    }
-
-    @Override
     public List<Purchase> getByDate(String date) {
         List<Purchase> purchaseOfDate = new ArrayList<>();
         Purchase purchase = null;
@@ -87,11 +82,23 @@ public class PurchaseDatabaseDao implements PurchaseDao {
         return purchaseOfDate;
     }
 
+    @Override
+    public void delete(String date) {
+        try(Connection connection = conFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQLPurchase.DELETE.QUERY)){
+            statement.setString(1, date);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     enum SQLPurchase {
 
         INSERT("INSERT INTO purchases(date, name_souvenir, price, currency) VALUES(?, ?, ? , ?);"),
         SELECT("select * from purchases"),
-        SELECTbyDATE("select * from purchases WHERE date=?");
+        SELECTbyDATE("select * from purchases WHERE date=?"),
+        DELETE("delete from purchases Where date=?");
 
         String QUERY;
 
