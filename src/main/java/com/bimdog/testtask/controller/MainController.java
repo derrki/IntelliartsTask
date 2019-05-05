@@ -1,10 +1,10 @@
 package com.bimdog.testtask.controller;
 
-import com.bimdog.testtask.com.bimdog.testtask.impl.PurchaseDatabaseDao;
 import com.bimdog.testtask.dao.PurchaseDao;
 import com.bimdog.testtask.model.Purchase;
-import com.bimdog.testtask.view.Console;
 import com.bimdog.testtask.view.View;
+
+import java.util.List;
 
 public class MainController {
 
@@ -17,11 +17,43 @@ public class MainController {
     }
 
     public void run(){
-        addPurchase();
+
+        view.write("Привіт користувач. Введи команду для початку роботи або help для одержання списку команд");
+        //addPurchase();
+
+        while (true) {
+            String comandLine = view.reag();
+
+            if (comandLine.equals("all")) {
+                showAllPurchase();
+            } else if (comandLine.equals("help")) {
+                doHelp();
+            } else {
+                view.write("Не існуюча команда: " + comandLine);
+            }
+        }
     }
 
-   private void addPurchase() {
-        view.write("Привіт користувач. Введи команду для початку роботи");
+    private void doHelp() {
+        view.write("Існуючі команди:");
+        view.write("\tpurchase 2019-04-25 2 USD T-shirt");
+        view.write("\t\tдля введення даних про покупки в форматі: команда дата ціна валюта назва товару");
+        view.write("\tall");
+        view.write("\t\tдля відображення всіх покупок");
+        view.write("\thelp");
+        view.write("\t\tдля відображення всіх існуючих команд");
+    }
+
+    private void showAllPurchase() {
+        List<Purchase> allPurchase= purchaseDao.getAll();
+
+        for (Purchase p : allPurchase) {
+            System.out.println(p);
+        }
+    }
+
+    private void addPurchase() {
+
         String comandLine = view.reag();
         String[] itemComand = comandLine.split(" ");
         String comand = itemComand[0];
