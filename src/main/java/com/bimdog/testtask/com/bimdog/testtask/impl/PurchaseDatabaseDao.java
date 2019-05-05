@@ -63,14 +63,35 @@ public class PurchaseDatabaseDao implements PurchaseDao {
     }
 
     @Override
-    public Purchase getByDate(Long date) {
-        return null;
+    public List<Purchase> getByDate(String date) {
+        List<Purchase> purchaseOfDate = new ArrayList<>();
+        Purchase purchase = null;
+        ResultSet resultSet = null;
+        try(Connection connection = conFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQLPurchase.SELECTbyDATE.QUERY)) {
+            statement.setString(1, date);
+            resultSet = statement.executeQuery();
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    purchase = new Purchase();
+                    purchase.setDateOfPurchase(resultSet.getDate("date").toString());
+                    purchase.setNameSouvenir(resultSet.getString("name_souvenir"));
+                    purchase.setPrice(resultSet.getInt("price"));
+                    purchase.setCurrency(resultSet.getString("currency"));
+                    purchaseOfDate.add(purchase);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return purchaseOfDate;
     }
 
     enum SQLPurchase {
 
         INSERT("INSERT INTO purchases(date, name_souvenir, price, currency) VALUES(?, ?, ? , ?);"),
-        SELECT("select * from purchases");
+        SELECT("select * from purchases"),
+        SELECTbyDATE("select * from purchases WHERE date=?");
 
         String QUERY;
 

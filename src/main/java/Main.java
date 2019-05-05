@@ -21,18 +21,24 @@ public class Main {
 
         purchaseDao.add(purchase);
 
-        List<Purchase> allPurchase= purchaseDao.getAll();
+//        List<Purchase> allPurchase= purchaseDao.getAll();
+//
+//        for (Purchase p : allPurchase) {
+//            System.out.println(p);
+//        }
 
-        for (Purchase p : allPurchase) {
+
+        List<Purchase> purchasesOfDate = purchaseDao.getByDate("1998-12-31");
+
+        for (Purchase p : purchasesOfDate){
             System.out.println(p);
         }
-
 //        try (Connection connection = conFactory.getConnection();
 //                Statement statement = connection.createStatement();
 //                ){
 //
 //            System.out.println("Приєднано до mysql");
-//            ResultSet resultSet = statement.executeQuery("select * from purchases WHERE date='1985-01-01'");
+//            ResultSet resultSet = statement.executeQuery("select * from purchases WHERE date=?");
 //            while (resultSet.next()){
 //                System.out.print(resultSet.getDate("date") + " ");
 //                System.out.print(resultSet.getString("name_souvenir") + " ");

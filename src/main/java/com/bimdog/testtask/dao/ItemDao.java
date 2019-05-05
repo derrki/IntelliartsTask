@@ -8,7 +8,7 @@ public interface ItemDao <T extends Model>{
 
     public List<T> getAll();
 
-    public T getByDate(Long date);
+    public List<T> getByDate(String date);
 
     public boolean add(T model);
 
