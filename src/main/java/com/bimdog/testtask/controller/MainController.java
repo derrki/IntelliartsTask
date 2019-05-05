@@ -23,18 +23,22 @@ public class MainController {
         while (true) {
             String comandLine = view.read();
 
-            if(comandLine.contains("\"")){
-               comandLine = comandLine.replace("\"", "");
+            if (comandLine.contains("\"")) {
+                int cod = comandLine.indexOf("\"");
+                String midleLine = comandLine.subSequence(cod, comandLine.length()).toString();
+                String midleLineCorrect = midleLine.replace("\"", "");
+                midleLineCorrect = midleLineCorrect.replace(" ", "_");
+                comandLine = comandLine.replace(midleLine, midleLineCorrect);
+
             }
 
             if (comandLine.contains("purchase")) {
                 addPurchase(comandLine);
             } else if (comandLine.equals("all")) {
                 showAllPurchase();
-            } else if (comandLine.contains("clear")){
+            } else if (comandLine.contains("clear")) {
                 clearPurchase(comandLine);
-            }
-            else if (comandLine.equals("help")) {
+            } else if (comandLine.equals("help")) {
                 doHelp();
             } else if (comandLine.equals("exit")) {
                 view.write("Сеанс роботи з програмою завершено. До зустрічі");
@@ -79,6 +83,9 @@ public class MainController {
         int price = Integer.parseInt(itemComand[2]);
         String currency = itemComand[3];
         String name = itemComand[4];
+        if(name.contains("_")){
+            name = name.replace("_", " ");
+        }
 
         Purchase purchase = new Purchase();
         purchase.setDateOfPurchase(datePurchase);

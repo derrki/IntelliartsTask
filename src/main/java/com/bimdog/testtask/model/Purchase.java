@@ -71,6 +71,6 @@ public class Purchase extends Model {
 
     @Override
     public String toString() {
-        return dateOfPurchase + " " + nameSouvenir + " " + " " + price + " " + currency;
+        return dateOfPurchase + " " + nameSouvenir + " " + price + " " + currency;
     }
 }
