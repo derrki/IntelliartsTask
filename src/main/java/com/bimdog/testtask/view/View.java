@@ -4,6 +4,6 @@ public interface View {
 
     void write (String massage);
 
-    String reag();
+    String read();
 
 }

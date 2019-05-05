@@ -11,27 +11,47 @@ public class MainController {
     private View view;
     private PurchaseDao purchaseDao;
 
-    public  MainController(View view, PurchaseDao purchaseDao){
-       this.view = view;
-       this.purchaseDao = purchaseDao;
+    public MainController(View view, PurchaseDao purchaseDao) {
+        this.view = view;
+        this.purchaseDao = purchaseDao;
     }
 
-    public void run(){
+    public void run() {
 
         view.write("Привіт користувач. Введи команду для початку роботи або help для одержання списку команд");
-        //addPurchase();
 
         while (true) {
-            String comandLine = view.reag();
+            String comandLine = view.read();
 
-            if (comandLine.equals("all")) {
+            if(comandLine.contains("\"")){
+               comandLine = comandLine.replace("\"", "");
+            }
+
+            if (comandLine.contains("purchase")) {
+                addPurchase(comandLine);
+            } else if (comandLine.equals("all")) {
                 showAllPurchase();
-            } else if (comandLine.equals("help")) {
+            } else if (comandLine.contains("clear")){
+                clearPurchase(comandLine);
+            }
+            else if (comandLine.equals("help")) {
                 doHelp();
+            } else if (comandLine.equals("exit")) {
+                view.write("Сеанс роботи з програмою завершено. До зустрічі");
+                System.exit(0);
             } else {
                 view.write("Не існуюча команда: " + comandLine);
             }
         }
+    }
+
+    private void clearPurchase(String comandLine) {
+
+        String[] itemComand = comandLine.split(" ");
+        String comand = itemComand[0];
+        String datePurchase = itemComand[1];
+
+        purchaseDao.delete(datePurchase);
     }
 
     private void doHelp() {
@@ -45,16 +65,14 @@ public class MainController {
     }
 
     private void showAllPurchase() {
-        List<Purchase> allPurchase= purchaseDao.getAll();
+        List<Purchase> allPurchase = purchaseDao.getAll();
 
         for (Purchase p : allPurchase) {
             System.out.println(p);
         }
     }
 
-    private void addPurchase() {
-
-        String comandLine = view.reag();
+    private void addPurchase(String comandLine) {
         String[] itemComand = comandLine.split(" ");
         String comand = itemComand[0];
         String datePurchase = itemComand[1];
