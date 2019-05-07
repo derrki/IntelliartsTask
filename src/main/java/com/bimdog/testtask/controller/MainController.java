@@ -64,8 +64,14 @@ public class MainController {
         view.write("\t\tдля введення даних про покупки в форматі: команда дата ціна валюта назва товару");
         view.write("\tall");
         view.write("\t\tдля відображення всіх покупок");
+        view.write("\tclear");
+        view.write("\t\tдля видалення покупки з бази даних по даті");
+        view.write("\treport");
+        view.write("\t\tдля підрахунку загальної суми всіх покупок");
         view.write("\thelp");
         view.write("\t\tдля відображення всіх існуючих команд");
+        view.write("\texit");
+        view.write("\t\tдля виходу з програми");
     }
 
     private void showAllPurchase() {
