@@ -61,9 +61,12 @@ public class PurchaseDatabaseDao implements PurchaseDao {
         List<Purchase> purchaseOfDate = new ArrayList<>();
         Purchase purchase = null;
         ResultSet resultSet = null;
+        String startDate = date + "-01-01";
+        String endDate = date +"-12-31";
         try(Connection connection = conFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQLPurchase.SELECTbyDATE.QUERY)) {
-            statement.setString(1, date);
+            PreparedStatement statement = connection.prepareStatement(SQLPurchase.SELECT_DATE.QUERY)) {
+            statement.setString(1, startDate);
+            statement.setString(2, endDate);
             resultSet = statement.executeQuery();
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -96,7 +99,7 @@ public class PurchaseDatabaseDao implements PurchaseDao {
 
         INSERT("INSERT INTO purchases(date, name_souvenir, price, currency) VALUES(?, ?, ? , ?);"),
         SELECT("select * from purchases"),
-        SELECTbyDATE("select * from purchases WHERE date=?"),
+        SELECT_DATE("select * from purchases WHERE DATE BETWEEN ? AND ?;"),
         DELETE("delete from purchases Where date=?");
 
         String QUERY;

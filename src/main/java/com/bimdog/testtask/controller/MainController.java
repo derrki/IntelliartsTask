@@ -29,7 +29,6 @@ public class MainController {
                 String midleLineCorrect = midleLine.replace("\"", "");
                 midleLineCorrect = midleLineCorrect.replace(" ", "_");
                 comandLine = comandLine.replace(midleLine, midleLineCorrect);
-
             }
 
             if (comandLine.contains("purchase")) {
@@ -37,7 +36,9 @@ public class MainController {
             } else if (comandLine.equals("all")) {
                 showAllPurchase();
             } else if (comandLine.contains("clear")) {
-                clearPurchase(comandLine);
+                clearPurchase(comandLine);}
+            else if (comandLine.contains("report")) {
+                reportPurchase(comandLine);
             } else if (comandLine.equals("help")) {
                 doHelp();
             } else if (comandLine.equals("exit")) {
@@ -46,39 +47,6 @@ public class MainController {
             } else {
                 view.write("Не існуюча команда: " + comandLine);
             }
-        }
-    }
-
-    private void clearPurchase(String comandLine) {
-
-        String[] itemComand = comandLine.split(" ");
-        String comand = itemComand[0];
-        String datePurchase = itemComand[1];
-
-        purchaseDao.delete(datePurchase);
-    }
-
-    private void doHelp() {
-        view.write("Існуючі команди:");
-        view.write("\tpurchase 2019-04-25 2 USD T-shirt");
-        view.write("\t\tдля введення даних про покупки в форматі: команда дата ціна валюта назва товару");
-        view.write("\tall");
-        view.write("\t\tдля відображення всіх покупок");
-        view.write("\tclear");
-        view.write("\t\tдля видалення покупки з бази даних по даті");
-        view.write("\treport");
-        view.write("\t\tдля підрахунку загальної суми всіх покупок");
-        view.write("\thelp");
-        view.write("\t\tдля відображення всіх існуючих команд");
-        view.write("\texit");
-        view.write("\t\tдля виходу з програми");
-    }
-
-    private void showAllPurchase() {
-        List<Purchase> allPurchase = purchaseDao.getAll();
-
-        for (Purchase p : allPurchase) {
-            System.out.println(p);
         }
     }
 
@@ -100,6 +68,52 @@ public class MainController {
         purchase.setCurrency(currency);
 
         purchaseDao.add(purchase);
+    }
+
+    private void showAllPurchase() {
+        List<Purchase> allPurchase = purchaseDao.getAll();
+
+        for (Purchase p : allPurchase) {
+            System.out.println(p);
+        }
+    }
+
+    private void clearPurchase(String comandLine) {
+
+        String[] itemComand = comandLine.split(" ");
+        String comand = itemComand[0];
+        String datePurchase = itemComand[1];
+
+        purchaseDao.delete(datePurchase);
+    }
+
+    private void reportPurchase(String comandLine) {
+        String[] itemComand = comandLine.split(" ");
+        String comand = itemComand[0];
+        String datePurchase = itemComand[1];
+        String currency = itemComand[2];
+
+        List<Purchase> allPurchase = purchaseDao.getByDate(datePurchase);
+        for (Purchase p : allPurchase) {
+            System.out.println(p);
+        }
+
+    }
+
+    private void doHelp() {
+        view.write("Існуючі команди:");
+        view.write("\tpurchase 2019-04-25 2 USD T-shirt");
+        view.write("\t\tдля введення даних про покупки в форматі: команда дата ціна валюта назва товару");
+        view.write("\tall");
+        view.write("\t\tдля відображення всіх покупок");
+        view.write("\tclear");
+        view.write("\t\tдля видалення покупки з бази даних по даті");
+        view.write("\treport");
+        view.write("\t\tдля підрахунку загальної суми всіх покупок");
+        view.write("\thelp");
+        view.write("\t\tдля відображення всіх існуючих команд");
+        view.write("\texit");
+        view.write("\t\tдля виходу з програми");
     }
 
 }
