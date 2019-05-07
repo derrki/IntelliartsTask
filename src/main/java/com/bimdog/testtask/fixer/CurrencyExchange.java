@@ -11,7 +11,7 @@ public class CurrencyExchange {
     Rates rates;
 
     public List<Currency> getCurrencyList(){
-        List<Currency> currencyList = new ArrayList<Currency>();
+        List<Currency> currencyList = new ArrayList<>();
         currencyList.add(new Currency("EUR", rates.getEUR()));
         currencyList.add(new Currency("PLN", rates.getPLN()));
         currencyList.add(new Currency("UAH", rates.getUAH()));

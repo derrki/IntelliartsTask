@@ -53,7 +53,6 @@ public class MainController {
 
     private void addPurchase(String comandLine) {
         String[] itemComand = comandLine.split(" ");
-        String comand = itemComand[0];
         String datePurchase = itemComand[1];
         int price = Integer.parseInt(itemComand[2]);
         String currency = itemComand[3];
@@ -69,12 +68,15 @@ public class MainController {
         purchase.setCurrency(currency);
 
         purchaseDao.add(purchase);
+
+        showAllPurchase();
     }
 
     private void showAllPurchase() {
         List<Purchase> allPurchase = purchaseDao.getAll();
 
         for (Purchase p : allPurchase) {
+            System.out.println(p.getDateOfPurchase());
             System.out.println(p);
         }
     }
@@ -82,18 +84,16 @@ public class MainController {
     private void clearPurchase(String comandLine) {
 
         String[] itemComand = comandLine.split(" ");
-        String comand = itemComand[0];
         String datePurchase = itemComand[1];
 
         purchaseDao.delete(datePurchase);
+
     }
 
     private void reportPurchase(String comandLine) {
 
-
         MainFixerApi mainFixerApi = new MainFixerApi();
         String[] itemComand = comandLine.split(" ");
-        String comand = itemComand[0];
         String datePurchase = itemComand[1];
         String currency = itemComand[2];
 
@@ -101,13 +101,11 @@ public class MainController {
 
         List<Purchase> allPurchase = purchaseDao.getByDate(datePurchase);
         for (Purchase p : allPurchase) {
-
             p.getCurrency();
             p.getPrice();
             result = result + mainFixerApi.convert(p.getCurrency(), currency, p.getPrice());
-            //System.out.println(p);
         }
-        System.out.println(result);
+        System.out.println(result + " " + currency);
 
     }
 

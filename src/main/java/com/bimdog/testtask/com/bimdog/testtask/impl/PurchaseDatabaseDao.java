@@ -98,7 +98,7 @@ public class PurchaseDatabaseDao implements PurchaseDao {
     enum SQLPurchase {
 
         INSERT("INSERT INTO purchases(date, name_souvenir, price, currency) VALUES(?, ?, ? , ?);"),
-        SELECT("select * from purchases"),
+        SELECT("select * from purchases ORDER BY date"),
         SELECT_DATE("select * from purchases WHERE DATE BETWEEN ? AND ?;"),
         DELETE("delete from purchases Where date=?");
 
