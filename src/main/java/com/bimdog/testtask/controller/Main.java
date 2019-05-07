@@ -11,11 +11,6 @@ public class Main {
         View view = new Console();
         PurchaseDao purchaseDao = new PurchaseDatabaseDao();
 
-
-        MainFixerApi mainFixerApi = new MainFixerApi();
-        System.out.println(mainFixerApi.convert("USD", "USD", 25));
-
-
         MainController controller = new MainController(view, purchaseDao);
         controller.run();
 

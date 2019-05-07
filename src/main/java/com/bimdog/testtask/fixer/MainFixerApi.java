@@ -66,8 +66,10 @@ public class MainFixerApi {
     public double convert(String from, String to, double amount){
 
         double result = 0.0;
+        double eurValue = getCurrentRate(from, jsonParameter(jsonReader()).getCurrencyList());
+        double cursTo = getCurrentRate(to, jsonParameter(jsonReader()).getCurrencyList());
 
-       result = getCurrentRate(to, jsonParameter(jsonReader()).getCurrencyList());
+       result =  (amount/eurValue) * cursTo;
 
         return result;
     }

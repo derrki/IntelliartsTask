@@ -1,6 +1,7 @@
 package com.bimdog.testtask.controller;
 
 import com.bimdog.testtask.dao.PurchaseDao;
+import com.bimdog.testtask.fixer.MainFixerApi;
 import com.bimdog.testtask.model.Purchase;
 import com.bimdog.testtask.view.View;
 
@@ -88,15 +89,25 @@ public class MainController {
     }
 
     private void reportPurchase(String comandLine) {
+
+
+        MainFixerApi mainFixerApi = new MainFixerApi();
         String[] itemComand = comandLine.split(" ");
         String comand = itemComand[0];
         String datePurchase = itemComand[1];
         String currency = itemComand[2];
 
+        double result = 0.0;
+
         List<Purchase> allPurchase = purchaseDao.getByDate(datePurchase);
         for (Purchase p : allPurchase) {
-            System.out.println(p);
+
+            p.getCurrency();
+            p.getPrice();
+            result = result + mainFixerApi.convert(p.getCurrency(), currency, p.getPrice());
+            //System.out.println(p);
         }
+        System.out.println(result);
 
     }
 
