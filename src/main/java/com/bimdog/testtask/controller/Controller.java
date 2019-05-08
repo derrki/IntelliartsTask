@@ -50,6 +50,8 @@ public class Controller {
         double price = Double.parseDouble(splitComandLine(comandLine)[2]);
         String currency = splitComandLine(comandLine)[3];
         String name = splitComandLine(comandLine)[4];
+
+        //видалення нижнього підкреслення
         if(name.contains("_")){
             name = name.replace("_", " ");
         }
@@ -152,6 +154,8 @@ public class Controller {
         return comandLine.split(" ");
     }
 
+    //перевіряє чи введена команда має скобки. Вирізає частину команди, що внесена в скобки, видаляє скобки і вставляє назад.
+    //якщо в скобках міститься пробіл то він заміняється на нижне підкреслення, щоб назва товару записалась в одну комірку масиву
    private String formatComandLine(String comandLineRead){
 
         if (comandLineRead.contains("\"")) {

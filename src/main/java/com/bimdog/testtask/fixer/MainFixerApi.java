@@ -63,13 +63,14 @@ public class MainFixerApi {
         return d;
     }
 
+    //відбувається подвійна конвертація спочатку в євро потім в потрібну валюту
     public double convert(String from, String to, double amount){
 
         double result = 0.0;
         double eurValue = getCurrentRate(from, jsonParameter(jsonReader()).getCurrencyList());
         double cursTo = getCurrentRate(to, jsonParameter(jsonReader()).getCurrencyList());
 
-       result =  (amount/eurValue) * cursTo;
+        result =  (amount/eurValue) * cursTo;
 
         return result;
     }
