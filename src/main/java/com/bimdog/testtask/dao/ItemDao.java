@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface ItemDao <T extends Model>{
 
-    public List<T> getAll();
+    boolean add(T model);
 
-    public List<T> getByDate(String date);
+    List<T> getAll();
 
-    public boolean add(T model);
+    List<T> getByDate(String date);
 
-    public void delete(String date);
+    void delete(String date) throws DAOException;
 
 }

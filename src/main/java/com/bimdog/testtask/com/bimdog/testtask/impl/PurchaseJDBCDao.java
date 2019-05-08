@@ -1,6 +1,7 @@
 package com.bimdog.testtask.com.bimdog.testtask.impl;
 
 import com.bimdog.testtask.dao.ConnectionFactory;
+import com.bimdog.testtask.dao.DAOException;
 import com.bimdog.testtask.dao.PurchaseDao;
 import com.bimdog.testtask.model.Purchase;
 
@@ -8,11 +9,11 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class PurchaseDatabaseDao implements PurchaseDao {
+public class PurchaseJDBCDao implements PurchaseDao {
 
     private ConnectionFactory conFactory = ConnectionFactory.getInstance();
 
-    public PurchaseDatabaseDao(){}
+    public PurchaseJDBCDao(){}
 
     @Override
     public boolean add(Purchase purchase) {
@@ -85,13 +86,13 @@ public class PurchaseDatabaseDao implements PurchaseDao {
     }
 
     @Override
-    public void delete(String date) {
+    public void delete(String date) throws DAOException {
         try(Connection connection = conFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQLPurchase.DELETE.QUERY)){
             statement.setString(1, date);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Can not delete purchase", e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.bimdog.testtask.controller;
 
+import com.bimdog.testtask.dao.DAOException;
 import com.bimdog.testtask.dao.PurchaseDao;
 import com.bimdog.testtask.fixer.MainFixerApi;
 import com.bimdog.testtask.model.Purchase;
@@ -52,11 +53,11 @@ public class MainController {
     }
 
     private void addPurchase(String comandLine) {
-        String[] itemComand = comandLine.split(" ");
-        String datePurchase = itemComand[1];
-        int price = Integer.parseInt(itemComand[2]);
-        String currency = itemComand[3];
-        String name = itemComand[4];
+
+        String datePurchase = splitComandLine(comandLine)[1];
+        int price = Integer.parseInt(splitComandLine(comandLine)[2]);
+        String currency = splitComandLine(comandLine)[3];
+        String name = splitComandLine(comandLine)[4];
         if(name.contains("_")){
             name = name.replace("_", " ");
         }
@@ -83,19 +84,22 @@ public class MainController {
 
     private void clearPurchase(String comandLine) {
 
-        String[] itemComand = comandLine.split(" ");
-        String datePurchase = itemComand[1];
+        String datePurchase = splitComandLine(comandLine)[1];
 
-        purchaseDao.delete(datePurchase);
+        try {
+            purchaseDao.delete(datePurchase);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
+        showAllPurchase();
     }
 
     private void reportPurchase(String comandLine) {
 
         MainFixerApi mainFixerApi = new MainFixerApi();
-        String[] itemComand = comandLine.split(" ");
-        String datePurchase = itemComand[1];
-        String currency = itemComand[2];
+        String datePurchase = splitComandLine(comandLine)[1];
+        String currency = splitComandLine(comandLine)[2];
 
         double result = 0.0;
 
@@ -123,6 +127,10 @@ public class MainController {
         view.write("\t\tдля відображення всіх існуючих команд");
         view.write("\texit");
         view.write("\t\tдля виходу з програми");
+    }
+
+    String[] splitComandLine(String comandLine){
+        return comandLine.split(" ");
     }
 
 }
