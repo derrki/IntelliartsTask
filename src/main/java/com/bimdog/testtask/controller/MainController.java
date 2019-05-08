@@ -23,15 +23,8 @@ public class MainController {
         view.write("Привіт користувач. Введи команду для початку роботи або help для одержання списку команд");
 
         while (true) {
-            String comandLine = view.read();
-
-            if (comandLine.contains("\"")) {
-                int cod = comandLine.indexOf("\"");
-                String midleLine = comandLine.subSequence(cod, comandLine.length()).toString();
-                String midleLineCorrect = midleLine.replace("\"", "");
-                midleLineCorrect = midleLineCorrect.replace(" ", "_");
-                comandLine = comandLine.replace(midleLine, midleLineCorrect);
-            }
+            String comandLineRead = view.read();
+            String comandLine = formatComandLine(comandLineRead);
 
             if (comandLine.contains("purchase")) {
                 addPurchase(comandLine);
@@ -68,17 +61,28 @@ public class MainController {
         purchase.setPrice(price);
         purchase.setCurrency(currency);
 
-        purchaseDao.add(purchase);
+        try {
+            purchaseDao.add(purchase);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
         showAllPurchase();
     }
 
     private void showAllPurchase() {
-        List<Purchase> allPurchase = purchaseDao.getAll();
+        List<Purchase> allPurchase = null;
+        try {
+            allPurchase = purchaseDao.getAll();
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
-        for (Purchase p : allPurchase) {
-            System.out.println(p.getDateOfPurchase());
-            System.out.println(p);
+        if (allPurchase != null) {
+            for (Purchase p : allPurchase) {
+                System.out.println(p.getDateOfPurchase());
+                System.out.println(p);
+            }
         }
     }
 
@@ -103,14 +107,20 @@ public class MainController {
 
         double result = 0.0;
 
-        List<Purchase> allPurchase = purchaseDao.getByDate(datePurchase);
-        for (Purchase p : allPurchase) {
-            p.getCurrency();
-            p.getPrice();
-            result = result + mainFixerApi.convert(p.getCurrency(), currency, p.getPrice());
+        List<Purchase> allPurchase = null;
+        try {
+            allPurchase = purchaseDao.getByDate(datePurchase);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+        if(allPurchase != null) {
+            for (Purchase p : allPurchase) {
+                p.getCurrency();
+                p.getPrice();
+                result = result + mainFixerApi.convert(p.getCurrency(), currency, p.getPrice());
+            }
         }
         System.out.println(result + " " + currency);
-
     }
 
     private void doHelp() {
@@ -131,6 +141,19 @@ public class MainController {
 
     String[] splitComandLine(String comandLine){
         return comandLine.split(" ");
+    }
+
+    String formatComandLine(String comandLineRead){
+
+        if (comandLineRead.contains("\"")) {
+            int elementPosition = comandLineRead.indexOf("\"");
+            String cutLine = comandLineRead.subSequence(elementPosition, comandLineRead.length()).toString();
+            String cutLineCorrect = cutLine.replace("\"", "");
+            cutLineCorrect = cutLineCorrect.replace(" ", "_");
+            return comandLineRead.replace(cutLine, cutLineCorrect);
+        } else {
+            return comandLineRead;
+        }
     }
 
 }

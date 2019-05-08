@@ -16,7 +16,7 @@ public class PurchaseJDBCDao implements PurchaseDao {
     public PurchaseJDBCDao(){}
 
     @Override
-    public boolean add(Purchase purchase) {
+    public boolean add(Purchase purchase) throws DAOException {
         boolean result = false;
 
         try(Connection connection = conFactory.getConnection();
@@ -29,13 +29,13 @@ public class PurchaseJDBCDao implements PurchaseDao {
             result = statement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Can not delete purchase", e);
         }
         return result;
     }
 
     @Override
-    public List<Purchase> getAll() {
+    public List<Purchase> getAll() throws DAOException {
         List<Purchase> allPurchase = new ArrayList<>();
         Purchase purchase = null;
         try(Connection connection = conFactory.getConnection();
@@ -52,13 +52,13 @@ public class PurchaseJDBCDao implements PurchaseDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Can not delete purchase", e);
         }
         return allPurchase;
     }
 
     @Override
-    public List<Purchase> getByDate(String date) {
+    public List<Purchase> getByDate(String date) throws DAOException {
         List<Purchase> purchaseOfDate = new ArrayList<>();
         Purchase purchase = null;
         ResultSet resultSet = null;
@@ -80,7 +80,7 @@ public class PurchaseJDBCDao implements PurchaseDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Can not delete purchase", e);
         }
         return purchaseOfDate;
     }
