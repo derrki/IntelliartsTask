@@ -4,7 +4,7 @@ CREATE TABLE `souvenir_shop`.`purchases` (
   `idpurchases` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `name_souvenir` VARCHAR(45) NOT NULL,
-  `price` INT NOT NULL,
+  `price` DOUBLE NOT NULL,
   `currency` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpurchases`))
 ENGINE = InnoDB

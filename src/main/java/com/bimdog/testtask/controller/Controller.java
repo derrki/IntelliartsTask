@@ -5,7 +5,6 @@ import com.bimdog.testtask.dao.PurchaseDao;
 import com.bimdog.testtask.fixer.MainFixerApi;
 import com.bimdog.testtask.model.Purchase;
 import com.bimdog.testtask.view.View;
-
 import java.util.List;
 
 public class Controller {
@@ -48,7 +47,7 @@ public class Controller {
     private void addPurchase(String comandLine) {
 
         String datePurchase = splitComandLine(comandLine)[1];
-        int price = Integer.parseInt(splitComandLine(comandLine)[2]);
+        double price = Double.parseDouble(splitComandLine(comandLine)[2]);
         String currency = splitComandLine(comandLine)[3];
         String name = splitComandLine(comandLine)[4];
         if(name.contains("_")){
@@ -68,16 +67,29 @@ public class Controller {
 
     private void showAllPurchase() {
         List<Purchase> allPurchase = null;
+
         try {
             allPurchase = purchaseDao.getAll();
         } catch (DAOException e) {
             e.printStackTrace();
         }
 
+        String printDate = null;
+        String printDateNext = null;
         if (allPurchase != null) {
             for (Purchase p : allPurchase) {
-                System.out.println(p.getDateOfPurchase());
-                System.out.println(p);
+                printDate = p.getDateOfPurchase().toString();
+
+                if (!printDate.equals(printDateNext)){
+                    System.out.println();
+                    System.out.println(printDate);
+                    System.out.println(p);
+
+                } else {
+
+                    System.out.println(p);
+                }
+                printDateNext = printDate;
             }
         }
     }
@@ -114,6 +126,7 @@ public class Controller {
                 p.getCurrency();
                 p.getPrice();
                 result = result + mainFixerApi.convert(p.getCurrency(), currency, p.getPrice());
+                result = Math.round(result * 100.0) / 100.0;
             }
         }
         System.out.println(result + " " + currency);
@@ -151,5 +164,4 @@ public class Controller {
             return comandLineRead;
         }
     }
-
 }

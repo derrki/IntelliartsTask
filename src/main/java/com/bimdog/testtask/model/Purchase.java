@@ -7,11 +7,11 @@ import java.sql.Date;
 public class Purchase extends Model {
 
     private Date dateOfPurchase;
-    private int price;
+    private double price;
     private String currency;
     private String nameSouvenir;
 
-    public Purchase(String dateOfPurchase, int price, String currency, String nameSouvenir) {
+    public Purchase(String dateOfPurchase, double price, String currency, String nameSouvenir) {
 
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
@@ -33,7 +33,7 @@ public class Purchase extends Model {
         return nameSouvenir;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

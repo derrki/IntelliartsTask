@@ -23,7 +23,7 @@ public class PurchaseJDBCDao implements PurchaseDao {
 
             statement.setDate(1, new Date(purchase.getDateOfPurchase().getTime()+oneDay));
             statement.setString(2, purchase.getNameSouvenir());
-            statement.setInt(3, purchase.getPrice());
+            statement.setDouble(3, purchase.getPrice());
             statement.setString(4, purchase.getCurrency());
             result = statement.execute();
 
