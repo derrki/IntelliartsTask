@@ -10,7 +10,7 @@ public class Main {
         View view = new Console();
         PurchaseDao purchaseDao = new PurchaseJDBCDao();
 
-        MainController controller = new MainController(view, purchaseDao);
+        Controller controller = new Controller(view, purchaseDao);
         controller.run();
 
     }

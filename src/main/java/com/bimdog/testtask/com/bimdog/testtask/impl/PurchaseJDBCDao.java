@@ -13,16 +13,15 @@ public class PurchaseJDBCDao implements PurchaseDao {
 
     private ConnectionFactory conFactory = ConnectionFactory.getInstance();
 
-    public PurchaseJDBCDao(){}
-
     @Override
     public boolean add(Purchase purchase) throws DAOException {
         boolean result = false;
+        long oneDay = 86400000;
 
         try(Connection connection = conFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQLPurchase.INSERT.QUERY)){
 
-            statement.setDate(1, new Date(purchase.getDateOfPurchase().getTime()));
+            statement.setDate(1, new Date(purchase.getDateOfPurchase().getTime()+oneDay));
             statement.setString(2, purchase.getNameSouvenir());
             statement.setInt(3, purchase.getPrice());
             statement.setString(4, purchase.getCurrency());
@@ -37,18 +36,16 @@ public class PurchaseJDBCDao implements PurchaseDao {
     @Override
     public List<Purchase> getAll() throws DAOException {
         List<Purchase> allPurchase = new ArrayList<>();
-        Purchase purchase = null;
         try(Connection connection = conFactory.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SQLPurchase.SELECT.QUERY)) {
             if (resultSet != null) {
                 while (resultSet.next()) {
-                    purchase = new Purchase();
-                    purchase.setDateOfPurchase(resultSet.getDate("date").toString());
-                    purchase.setNameSouvenir(resultSet.getString("name_souvenir"));
-                    purchase.setPrice(resultSet.getInt("price"));
-                    purchase.setCurrency(resultSet.getString("currency"));
-                    allPurchase.add(purchase);
+                    String dateTabl = resultSet.getDate("date").toString();
+                    int price = resultSet.getInt("price");
+                    String currency = resultSet.getString("currency");
+                    String name = resultSet.getString("name_souvenir");
+                    allPurchase.add(new Purchase(dateTabl, price, currency, name));
                 }
             }
         } catch (SQLException e) {
@@ -60,7 +57,6 @@ public class PurchaseJDBCDao implements PurchaseDao {
     @Override
     public List<Purchase> getByDate(String date) throws DAOException {
         List<Purchase> purchaseOfDate = new ArrayList<>();
-        Purchase purchase = null;
         ResultSet resultSet = null;
         String startDate = date + "-01-01";
         String endDate = date +"-12-31";
@@ -71,12 +67,11 @@ public class PurchaseJDBCDao implements PurchaseDao {
             resultSet = statement.executeQuery();
             if (resultSet != null) {
                 while (resultSet.next()) {
-                    purchase = new Purchase();
-                    purchase.setDateOfPurchase(resultSet.getDate("date").toString());
-                    purchase.setNameSouvenir(resultSet.getString("name_souvenir"));
-                    purchase.setPrice(resultSet.getInt("price"));
-                    purchase.setCurrency(resultSet.getString("currency"));
-                    purchaseOfDate.add(purchase);
+                    String dateTabl = resultSet.getDate("date").toString();
+                    int price = resultSet.getInt("price");
+                    String currency = resultSet.getString("currency");
+                    String name = resultSet.getString("name_souvenir");
+                    purchaseOfDate.add(new Purchase(dateTabl, price, currency, name));
                 }
             }
         } catch (SQLException e) {

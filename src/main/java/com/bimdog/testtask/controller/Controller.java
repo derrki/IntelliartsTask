@@ -8,12 +8,12 @@ import com.bimdog.testtask.view.View;
 
 import java.util.List;
 
-public class MainController {
+public class Controller {
 
     private View view;
     private PurchaseDao purchaseDao;
 
-    public MainController(View view, PurchaseDao purchaseDao) {
+    public Controller(View view, PurchaseDao purchaseDao) {
         this.view = view;
         this.purchaseDao = purchaseDao;
     }
@@ -55,11 +55,7 @@ public class MainController {
             name = name.replace("_", " ");
         }
 
-        Purchase purchase = new Purchase();
-        purchase.setDateOfPurchase(datePurchase);
-        purchase.setNameSouvenir(name);
-        purchase.setPrice(price);
-        purchase.setCurrency(currency);
+        Purchase purchase = new Purchase(datePurchase, price, currency, name);
 
         try {
             purchaseDao.add(purchase);
@@ -139,11 +135,11 @@ public class MainController {
         view.write("\t\tдля виходу з програми");
     }
 
-    String[] splitComandLine(String comandLine){
+   private String[] splitComandLine(String comandLine){
         return comandLine.split(" ");
     }
 
-    String formatComandLine(String comandLineRead){
+   private String formatComandLine(String comandLineRead){
 
         if (comandLineRead.contains("\"")) {
             int elementPosition = comandLineRead.indexOf("\"");

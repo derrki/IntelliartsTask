@@ -7,52 +7,38 @@ import java.sql.Date;
 public class Purchase extends Model {
 
     private Date dateOfPurchase;
-    private String nameSouvenir;
     private int price;
     private String currency;
+    private String nameSouvenir;
 
-    public Purchase() {
+    public Purchase(String dateOfPurchase, int price, String currency, String nameSouvenir) {
+
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
+            this.dateOfPurchase = new Date(simpleDateFormat.parse(dateOfPurchase).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.nameSouvenir = nameSouvenir;
+        this.price = price;
+        this.currency = currency;
     }
 
     public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(String dateOfPurchase) {
-        long oneDay = 86400000;
-        java.util.Date date = null;
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
-            date = simpleDateFormat.parse(dateOfPurchase);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        this.dateOfPurchase = new Date(date.getTime());
-    }
-
     public String getNameSouvenir() {
         return nameSouvenir;
-    }
-
-    public void setNameSouvenir(String nameSouvenir) {
-            this.nameSouvenir = nameSouvenir;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     @Override
